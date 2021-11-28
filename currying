@@ -1,0 +1,28 @@
+const add=(a,b,c,d)=>a+b+c+d;
+
+const curriedAdd=makeMeCurried(add);
+
+function makeMeCurried(func){
+
+    return (...args)=>{
+        const argumentsRequired=func.length;
+        if(args.length>=argumentsRequired)
+        {
+            return func(...args);
+        }
+        const getSetter=(...newArgs)=>{
+            args.push(...newArgs);
+            console.log(args);
+            if(args.length>=argumentsRequired)
+            {
+                return func(...args);
+            }
+            return getSetter;
+        }
+        return getSetter
+    }
+}
+console.log(curriedAdd(1,2,3,4,5))
+console.log(curriedAdd(2)(3)(4)(9))
+console.log(curriedAdd(2,3)(4)(9))
+console.log(curriedAdd(2,3)(4,9))
